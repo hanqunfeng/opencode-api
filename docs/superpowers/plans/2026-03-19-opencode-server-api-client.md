@@ -144,8 +144,8 @@ public class OpencodeClientConfig {
 
     public OpencodeClientConfig() {
         this(System.getenv("OPENCODE_BASE_URL"),
-                System.getenv("OPENCODE_USERNAME"),
-                System.getenv("OPENCODE_PASSWORD"),
+                System.getenv("OPENCODE_SERVER_USERNAME"),
+                System.getenv("OPENCODE_SERVER_PASSWORD"),
                 System.getenv("OPENCODE_TIMEOUT_MS"),
                 System.getenv("OPENCODE_BLOCKING_TIMEOUT_MS"));
     }
@@ -514,8 +514,8 @@ public abstract class IntegrationTestBase {
         }
         config = new OpencodeClientConfig(
                 baseUrl,
-                System.getenv("OPENCODE_USERNAME"),
-                System.getenv("OPENCODE_PASSWORD"),
+                System.getenv("OPENCODE_SERVER_USERNAME"),
+                System.getenv("OPENCODE_SERVER_PASSWORD"),
                 System.getenv("OPENCODE_TIMEOUT_MS"),
                 System.getenv("OPENCODE_BLOCKING_TIMEOUT_MS"));
         httpClient = new OpencodeHttpClient(config);

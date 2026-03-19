@@ -2,13 +2,12 @@ package com.example.opencodeapi.integration;
 
 import com.example.opencodeapi.client.api.ConfigApiClient;
 import com.example.opencodeapi.client.api.InstanceApiClient;
-import tools.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import tools.jackson.databind.JsonNode;
 
-import static com.example.opencodeapi.integration.ApiAssertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ConfigApiClientIT extends IntegrationTestBase {
 
@@ -25,6 +24,7 @@ class ConfigApiClientIT extends IntegrationTestBase {
     void getConfig_returnsConfig() {
         JsonNode config = configClient.get();
         assertNotNull(config);
+        System.out.println(config);
     }
 
     @Test

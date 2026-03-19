@@ -32,19 +32,19 @@
 
 `OpencodeClientConfig` 统一读取并管理：
 - `OPENCODE_BASE_URL`（例如 `http://127.0.0.1:4096`）
-- `OPENCODE_USERNAME`（可选）
-- `OPENCODE_PASSWORD`（可选）
+- `OPENCODE_SERVER_USERNAME`（可选）
+- `OPENCODE_SERVER_PASSWORD`（可选）
 - `OPENCODE_TIMEOUT_MS`（可选，普通请求超时，默认 `10000`）
 - `OPENCODE_BLOCKING_TIMEOUT_MS`（可选，阻塞接口超时，默认 `3000`）
 
 说明：
-- 客户端侧环境变量使用 `OPENCODE_USERNAME`/`OPENCODE_PASSWORD` 发送 Basic Auth；
+- 客户端侧环境变量使用 `OPENCODE_SERVER_USERNAME`/`OPENCODE_SERVER_PASSWORD` 发送 Basic Auth；
 - 服务端认证由 `OPENCODE_SERVER_USERNAME`/`OPENCODE_SERVER_PASSWORD` 控制，二者相互独立。
 - `OPENCODE_BASE_URL` 未设置或为空时，客户端应在初始化阶段 fail-fast 并抛出明确错误，提示先设置该变量并确认 `opencode serve` 已启动。
 
 认证策略：
-- 若 `OPENCODE_PASSWORD` 为空：不附加 Basic Auth。
-- 若 `OPENCODE_PASSWORD` 非空：附加 Basic Auth，用户名默认取 `OPENCODE_USERNAME`，为空时回退 `opencode`。
+- 若 `OPENCODE_SERVER_PASSWORD` 为空：不附加 Basic Auth。
+- 若 `OPENCODE_SERVER_PASSWORD` 非空：附加 Basic Auth，用户名默认取 `OPENCODE_SERVER_USERNAME`，为空时回退 `opencode`。
 
 ### 3.2 传输层
 
@@ -127,8 +127,8 @@ CI 策略：
 ### 5.2 测试环境变量
 
 - `OPENCODE_BASE_URL`（必填）
-- `OPENCODE_USERNAME`（可选）
-- `OPENCODE_PASSWORD`（可选）
+- `OPENCODE_SERVER_USERNAME`（可选）
+- `OPENCODE_SERVER_PASSWORD`（可选）
 - `OPENCODE_TIMEOUT_MS`（可选，默认 `10000`）
 - `OPENCODE_BLOCKING_TIMEOUT_MS`（可选，默认 `3000`）
 
