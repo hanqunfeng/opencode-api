@@ -3,7 +3,7 @@ package com.example.opencodeapi.client.http;
 import com.example.opencodeapi.client.config.OpencodeClientConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Base64;
@@ -39,13 +40,17 @@ public class OpencodeHttpClient {
             baseBuilder.defaultHeader("Authorization", "Basic " + credentials);
         }
 
-        SimpleClientHttpRequestFactory normalFactory = new SimpleClientHttpRequestFactory();
-        normalFactory.setConnectTimeout(Duration.ofMillis(Math.min(config.getTimeoutMs(), 5_000L)));
+        HttpClient normalHttpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofMillis(Math.min(config.getTimeoutMs(), 5_000L)))
+                .build();
+        JdkClientHttpRequestFactory normalFactory = new JdkClientHttpRequestFactory(normalHttpClient);
         normalFactory.setReadTimeout(Duration.ofMillis(config.getTimeoutMs()));
         this.restClient = baseBuilder.clone().requestFactory(normalFactory).build();
 
-        SimpleClientHttpRequestFactory blockingFactory = new SimpleClientHttpRequestFactory();
-        blockingFactory.setConnectTimeout(Duration.ofMillis(Math.min(config.getBlockingTimeoutMs(), 5_000L)));
+        HttpClient blockingHttpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofMillis(Math.min(config.getBlockingTimeoutMs(), 5_000L)))
+                .build();
+        JdkClientHttpRequestFactory blockingFactory = new JdkClientHttpRequestFactory(blockingHttpClient);
         blockingFactory.setReadTimeout(Duration.ofMillis(config.getBlockingTimeoutMs()));
         this.blockingRestClient = baseBuilder.clone().requestFactory(blockingFactory).build();
     }
